@@ -1,7 +1,6 @@
 let firstNum, operator, secNum;
 
 function operate(num1, operator, num2){
-    // cases using the operator
     switch(operator){
         case "+": console.log(add(num1, num2));
         break;
@@ -11,6 +10,7 @@ function operate(num1, operator, num2){
         break;
         case "/": console.log(divide(num1, num2));
         break;
+        default: "calculator"
     }
 }
 
