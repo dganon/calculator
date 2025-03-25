@@ -2,6 +2,7 @@ let firstOperand = null;
 let secondOperand = null;
 let firstOperator = null;
 let secondOperator = null;
+let result = null;
 let displayValue = "0";
 
 const display = document.querySelector("#display");
@@ -20,7 +21,7 @@ function clickBtn(event) {
     }
     else if (btn.id === "equals"){
         console.log("calculate");
-        //operation handler
+        clickEquals();
     }   
     else{
         if (btn.className === "operand"){
@@ -47,12 +48,14 @@ function setOperand(operand){
         console.log("first operand: ", firstOperand);
     }
     else if(secondOperand === null && firstOperator !== null){
+        // first digit of second operand 
         secondOperand = operand;
         displayValue = operand;
         updateDisplay();
         console.log("second operand: ", secondOperand);
     }
     else if(secondOperand !== null && firstOperator !== null){
+        // second and above digit of second operand 
         secondOperand += operand;
         displayValue += operand;
         updateDisplay();
@@ -63,16 +66,44 @@ function setOperand(operand){
 
 function setOperator(operator){
     if(firstOperator === null){
+        // first calculation
         firstOperator = operator;
         displayValue = operator;
         updateDisplay();
+        console.log("1st operator: ", firstOperator);
     }
     else if(firstOperator !== null & secondOperator === null){
         secondOperator = operator;
+        console.log("2nd operator: ", secondOperator);
         // calculate the first pair of numbers then use the result to calculate using this operator
-    }
+        result = operate(Number(firstOperand), firstOperator, Number(secondOperand));
+        displayValue = result;
+        updateDisplay();
 
-    console.log("first operator: ", firstOperator);
+        firstOperand = result;
+        secondOperand = null;
+        result = null;
+    }
+}
+
+function clickEquals(){
+    if (firstOperator ===  null){
+        displayValue = displayValue;
+    }
+    else if(secondOperator !== null){
+        // second operator
+        result = operate(Number(firstOperand), secondOperator, Number(secondOperand));
+        displayValue = result;
+        updateDisplay();
+        console.log(result);
+    }
+    else{
+        result = operate(Number(firstOperand), firstOperator, Number(secondOperand));
+        displayValue = result;
+        updateDisplay();
+
+        console.log(result);
+    }
 }
 
 function clearCalc(){
