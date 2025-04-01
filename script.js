@@ -34,7 +34,9 @@ function clickBtn(event) {
 }
 
 function setOperand(operand){
-    if (firstOperand === null){
+
+    if (firstOperand === null && firstOperator === null){
+        // first value
         firstOperand = operand;
         displayValue = operand;
         updateDisplay();
@@ -72,17 +74,35 @@ function setOperator(operator){
         updateDisplay();
         console.log("1st operator: ", firstOperator);
     }
-    else if(firstOperator !== null & secondOperator === null){
+    else if(firstOperator !== null && secondOperator === null){
+        if (secondOperand === null){
+            console.log("error");
+        }
+        else{
+            secondOperator = operator;
+            console.log("2nd operator: ", secondOperator);
+            // calculate the first pair of numbers then use the result to calculate using this operator
+            result = operate(Number(firstOperand), firstOperator, Number(secondOperand));
+            displayValue = result;
+            updateDisplay();
+    
+            firstOperand = result;
+            secondOperand = null;
+            result = null;
+        }
+    }
+    else if(firstOperator !== null && secondOperator !== null){
+        // handles another calculation
         secondOperator = operator;
-        console.log("2nd operator: ", secondOperator);
-        // calculate the first pair of numbers then use the result to calculate using this operator
-        result = operate(Number(firstOperand), firstOperator, Number(secondOperand));
+        result = operate(Number(firstOperand), secondOperator, Number(secondOperand));
         displayValue = result;
         updateDisplay();
 
         firstOperand = result;
         secondOperand = null;
         result = null;
+
+        console.log("third and up calculation");
     }
 }
 
@@ -104,17 +124,28 @@ function clickEquals(){
 
         console.log(result);
     }
+
+    console.log(firstOperand, secondOperand, firstOperator, secondOperator);
+
+    // clears variables to allow new calculation without clicking the clear button
+    firstOperand = null;
+    firstOperator = null;
+    secondOperand = null;
+    secondOperator = null;
+
+    console.log(firstOperand, secondOperand, firstOperator, secondOperator);
 }
 
 function clearCalc(){
     firstOperand = null;
     firstOperator = null;
     secondOperand = null;
+    secondOperator = null;
     displayValue = 0;
     updateDisplay();
 
     console.log("calc cleared");
-    console.log(firstOperand, firstOperator, secondOperand);
+    console.log(firstOperand, firstOperator, secondOperand, secondOperator);
 }
 
 function updateDisplay(){
